@@ -38,7 +38,7 @@ for (const label of labels) {
 }
 
 //Opcje biblioteki flatpickr
-//Sprawdzanie czy zostałą wybrana darta w przyszłości
+//Sprawdzanie czy została wybrana data w przyszłości
 const options = {
   enableTime: true,
   time_24hr: true,
@@ -65,6 +65,7 @@ function countdown() {
   let timeDifference = selectedDate - currentDate;
   if (timeDifference <= 0) {
     clearInterval(timer);
+    Notiflix.Notify.success('the countdown is over');
     return;
   }
   days.innerText = addLeadingZero(convertMs(timeDifference).days);
