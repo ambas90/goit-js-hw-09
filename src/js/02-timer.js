@@ -8,10 +8,10 @@ const values = document.querySelectorAll('.value');
 const labels = document.querySelectorAll('.label');
 const input = document.querySelector('#datetime-picker');
 const startBtn = document.querySelector('[data-start]');
-const days = document.querySelector('[data-days]');
-const hours = document.querySelector('[data-hours]');
-const minutes = document.querySelector('[data-minutes]');
-const seconds = document.querySelector('[data-seconds');
+const daysField = document.querySelector('[data-days]');
+const hoursField = document.querySelector('[data-hours]');
+const minutesField = document.querySelector('[data-minutes]');
+const secondsField = document.querySelector('[data-seconds');
 
 let selectedDate;
 let timer;
@@ -59,7 +59,13 @@ const options = {
 //inicjalizacja biblioteki flatpickr
 flatpickr(input, options);
 
-//funckja odliczająca i wyświetlająca czas pozostały do końca
+// funkcja dodająca zero jeżeli liczba jest jednocyfrowa
+function addLeadingZero(value) {
+  value = value.toString();
+  return value.padStart(2, '0');
+}
+
+//funckja odliczająca czas do końca odliczania
 function countdown() {
   const currentDate = new Date();
   let timeDifference = selectedDate - currentDate;
@@ -68,16 +74,19 @@ function countdown() {
     Notiflix.Notify.success('the countdown is over');
     return;
   }
-  days.innerText = addLeadingZero(convertMs(timeDifference).days);
-  hours.innerText = addLeadingZero(convertMs(timeDifference).hours);
-  minutes.innerText = addLeadingZero(convertMs(timeDifference).minutes);
-  seconds.innerText = addLeadingZero(convertMs(timeDifference).seconds);
+  days = convertMs(timeDifference).days;
+  hours = convertMs(timeDifference).hours;
+  minutes = convertMs(timeDifference).minutes;
+  seconds = convertMs(timeDifference).seconds;
+  timeDisplay(days, hours, minutes, seconds);
 }
 
-// funkcja dodająca zero jeżeli liczba jest jednocyfrowa
-function addLeadingZero(value) {
-  value = value.toString();
-  return value.padStart(2, '0');
+//funkcja wyświetlająca czas
+function timeDisplay(days, hours, minutes, seconds) {
+  daysField.innerText = addLeadingZero(days);
+  hoursField.innerText = addLeadingZero(hours);
+  minutesField.innerText = addLeadingZero(minutes);
+  secondsField.innerText = addLeadingZero(seconds);
 }
 
 // funkcja konwertująca milisekundy na dni,godziny,minuty,sekundy
