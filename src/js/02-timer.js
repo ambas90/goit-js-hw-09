@@ -67,6 +67,10 @@ function addLeadingZero(value) {
 
 //funckja odliczająca czas do końca odliczania
 function countdown() {
+  let days;
+  let hours;
+  let minutes;
+  let seconds;
   const currentDate = new Date();
   let timeDifference = selectedDate - currentDate;
   if (timeDifference <= 0) {
@@ -74,6 +78,7 @@ function countdown() {
     Notiflix.Notify.success('the countdown is over');
     return;
   }
+
   days = convertMs(timeDifference).days;
   hours = convertMs(timeDifference).hours;
   minutes = convertMs(timeDifference).minutes;
