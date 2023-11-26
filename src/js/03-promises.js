@@ -1,20 +1,41 @@
+import Notiflix from 'notiflix';
 const form = document.querySelector('.form');
 
-//wywoływanie funkcji tworzenia obietnic
+// wywoływanie funkcji tworzenia obietnic
 function handleSubmit(event) {
   event.preventDefault();
-  console.log('34534534');
+  let delay = Number(form.elements.delay.value);
+  const step = Number(form.elements.step.value);
+  const amount = Number(form.elements.amount.value);
+  for (let i = 1; i <= amount; i++) {
+    createPromise(i, delay);
+    delay = delay + step;
+  }
+}
+// tworzenie obietnic
+function createPromise(position, delay) {
+  const shouldResolve = Math.random() > 0.3;
+
+  const promise = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (shouldResolve) {
+        resolve({ position, delay });
+      } else {
+        reject({ position, delay });
+      }
+    }, delay);
+  });
+
+  promise
+    .then(({ position, delay }) => {
+      Notiflix.Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`);
+    })
+    .catch(({ position, delay }) => {
+      Notiflix.Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`);
+    });
+
+  console.log(promise);
 }
 
-//tworzenie obietnic
-// function createPromise(position, delay) {
-//   const shouldResolve = Math.random() > 0.3;
-//   if (shouldResolve) {
-//     // Fulfill
-//   } else {
-//     // Reject
-//   }
-// }
-
-//nasłuchiwanie formularza
+// nasłuchiwanie formularza
 form.addEventListener('submit', handleSubmit);
